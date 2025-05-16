@@ -2,7 +2,7 @@
 import Logout from "./logout";
 
 export default function Appbar(){
-        
+        const token = localStorage.getItem('token');
     return(
         <div className="  flex justify-between items-center  w-full  rounded-md mt-4 ">
             <div className="flex  w-full items-center text-white justify-between
@@ -12,11 +12,6 @@ export default function Appbar(){
             </div>
             <span className="flex   items-center  justify-end">
             <Logout/>
-                <div className="rounded-full h-12 w-12 bg-slate-200 flex justify-center  ">
-                    <div className="flex  h-full text-2xl justify-center items-center">
-                        U
-                    </div>
-                </div>
             </span>
         </div>
     )

@@ -9,12 +9,14 @@ function App() {
 
   return ( 
   <div>
+    
       <Router>
+
         <Routes>
           <Route path="/send" element={<SendMoney />} />
-          <Route path="/" element={<Signup />} />
+          <Route path="/" element={<Dashboard/>} />
           <Route path="/signin" element={<Signin />} />
-          <Route path="/dashboard" element={<Dashboard/>}/>
+          <Route path="/signup" element={<Signup />} />
         </Routes>
         </Router>
         </div>

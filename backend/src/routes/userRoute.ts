@@ -6,12 +6,11 @@ import  zod from  "zod"
 import jwt from "jsonwebtoken"
 import User from "../dbSchema/userSchema"
 import Account from "../dbSchema/accountSchema"
-import { JWT_SECRET } from "../config";
+
 const userRouter = Router();
 userRouter.post("/signup" ,async (req: Request, res: Response) : Promise<void> => { 
-    console.log("hi there");
+
     const body = req.body
-    console.log(body);
     const user = zod.object({
         firstName: zod.string(),
         lastName: zod.string(),
@@ -22,9 +21,7 @@ userRouter.post("/signup" ,async (req: Request, res: Response) : Promise<void> =
     if(userData.success){ 
         
         const newUser = new User(userData.data)
-        console.log(newUser);
         await newUser.save()
-        console.log(newUser);
         res.status(201).json({
             Message: "User created successfully",
             success: true
@@ -49,15 +46,20 @@ userRouter.post("/signin", async (req: Request, res: Response) => {
         
         const user = await User.findOne({email: body.email})
         const userId = user?._id
-        //@ts-ignore
         await Account.create({
             userId,
             balance: 1 + Math.random() * 10000
         })
-        if(user){
+        if(!process.env.JWT_SECRET){
+            res.status(400).json({
+                success: false,
+                message: "JWT_SECRET is not set"
+            })
+        }
+        else if(user){
             const token = jwt.sign({
                 id: user._id,
-            },JWT_SECRET)
+            }, process.env.JWT_SECRET)
             res.status(200).json({
                 success: true,
                 message: "User logged in successfully",

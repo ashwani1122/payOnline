@@ -19,7 +19,6 @@ usersRouter.get("/bulk", async (req: Request, res: Response) => {
     });
     res.json({
         success: true,
-        //@ts-ignore
         users: users.map(user =>({
             firstName: user.firstName,
             lastName: user.lastName,
