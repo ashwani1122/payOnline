@@ -3,7 +3,6 @@ import Logout from "./logout";
 import { useNavigate } from "react-router-dom";
 export default function Appbar(){
     const navigate = useNavigate();
-        const token = localStorage.getItem('token');
     return(
         <div className="  flex justify-between items-center fixed top-0 w-full bg-black">
             <div className="flex  w-full items-center text-white justify-between
