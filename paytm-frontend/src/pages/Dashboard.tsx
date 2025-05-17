@@ -6,6 +6,7 @@ import UserList from "../components/UserList";
 import axios from "axios";
 
 export default function Dashboard(){
+    const token = localStorage.getItem('token');
     const [ filter, setFilter] = useState("");
     const [ users, setUsers] = useState([]);
     const [balance, setBalance ] = useState<number>(0);
@@ -24,7 +25,7 @@ export default function Dashboard(){
         .catch((error)=>{
             console.log(error)
         })
-    },[])
+    },[token])
     useEffect(() => {
         axios.get("http://localhost:3000/api/v1/user/bulk?filter="+filter)
         .then((response)=>{
@@ -34,18 +35,18 @@ export default function Dashboard(){
         .catch((error)=>{
             console.log(error)
         })
-    },[filter])
+    },[filter ,token])
     return(
             <div  className=" h-screen overflow-hidden resize-none" >
                 <div  style={{backgroundImage: "url('https://cdn.svgator.com/images/2022/06/use-svg-as-background-image-particle-strokes.svg')" }} className=" w-full h-full">
                 <div className="w-full flex ">
                 <Appbar/>
                 </div>
-                <div className=" flex ">
-                    
-                <Balance  balance={
+                <div className=" flex mt-10"> 
+
+               {token ? <Balance  balance={ 
                     //@ts-ignore
-                    balance?.balance?.toFixed(2)}/>
+                    balance?.balance?.toFixed(2)}/>:<></>}
                 </div>
                 <Input onchange={(e: any)=>{
                     setFilter(e.target.value)

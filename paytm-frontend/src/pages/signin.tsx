@@ -27,7 +27,7 @@ export  default function Signin(){
                     console.log(response.data.token);
                     //@ts-ignore
                     localStorage.setItem("token", response.data.token);
-                    navigate("/dashboard")
+                    navigate("/")
                 }}  />
                 
                 <WarningButton lable={"Already have an account?"} buttonText={"Signup"} to ={"/"}/>

@@ -12,7 +12,13 @@ const userSchema: Schema<IUser> = new Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
 });
-
+declare global {
+  namespace Express {
+    interface Request {
+    user: string;
+    }
+  }
+}
 const User = mongoose.model<IUser>('User', userSchema);
 
 export default User;  // Correct export

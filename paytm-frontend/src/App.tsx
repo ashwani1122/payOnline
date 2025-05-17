@@ -5,13 +5,14 @@ import Signup from "./pages/signup";
 import Signin from "./pages/signin";
 import Dashboard from "./pages/Dashboard";
 import SendMoney from './pages/SendMoney';
+import Appbar from './components/Appbar';
 function App() {
 
   return ( 
   <div>
     
       <Router>
-
+      <Appbar/>
         <Routes>
           <Route path="/send" element={<SendMoney />} />
           <Route path="/" element={<Dashboard/>} />

@@ -2,9 +2,10 @@ import Button from "./Button";
 import { useNavigate } from "react-router-dom";
 export default function UserList({users}: {users: any[]}) { 
     const navigate = useNavigate();
+    const token = localStorage.getItem('token');
     return(
         <>
-            <div className=" w-full text-center flex justify-center items-center  ">
+            <div className=" w-full text-center flex justify-center items-center ">
             </div>
             <div className="flex flex-col  w-full justify-center items-center ">
                 {users.map((user: any) => (
@@ -15,12 +16,13 @@ export default function UserList({users}: {users: any[]}) {
                                 {user.firstName[0].toUpperCase()}
                                 
                             </div>
-                            {user.firstName.toUpperCase()}. {user.lastName.toUpperCase()}
+                            {user.firstName.toUpperCase()}
+                            <hr /> {user.lastName.toUpperCase()}
                     </div>
                     
-                    <Button label="Send Money" onClick={()=>{
+                    {token ?<Button label="Send Money" onClick={()=>{
                         navigate("/send?id="+user._id+"&name="+user.firstName)
-                    }} />
+                    }} />:<></>}
                     </div>
                 ))}
             </div>
