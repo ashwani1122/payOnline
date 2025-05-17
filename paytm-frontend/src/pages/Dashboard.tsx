@@ -11,7 +11,7 @@ export default function Dashboard(){
     const [ users, setUsers] = useState([]);
     const [balance, setBalance ] = useState<number>(0);
     useEffect(() => {
-        axios.get("http://localhost:3000/api/v1/user/balanceInquiry" ,
+        axios.get("https://payonline.onrender.com/api/v1/user/balanceInquiry" ,
             {
                 headers: {
                     Authorization: localStorage.getItem("token")
@@ -27,7 +27,7 @@ export default function Dashboard(){
         })
     },[token])
     useEffect(() => {
-        axios.get("http://localhost:3000/api/v1/user/bulk?filter="+filter)
+        axios.get("https://payonline.onrender.com/api/v1/user/bulk?filter="+filter)
         .then((response)=>{
             //@ts-ignore
             setUsers(response.data.users)
@@ -44,7 +44,7 @@ export default function Dashboard(){
                 </div>
                 <div className=" flex mt-10"> 
 
-               {token ? <Balance  balance={ 
+            {token ? <Balance  balance={ 
                     //@ts-ignore
                     balance?.balance?.toFixed(2)}/>:<></>}
                 </div>

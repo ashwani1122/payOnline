@@ -23,7 +23,7 @@ export  default function signup(){
                 <Input onchange={(e: any)=>setEmail(e.target.value)} Label="Email" placeholder="Enter your email"/>
                 <Input onchange={(e: any)=>setPassword(e.target.value)} Label="Password" placeholder="Enter your password"/>
                 <Button label="signup" onClick={()=>{
-                    axios.post("http://localhost:3000/api/v1/user/signup",{
+                    axios.post("https://payonline.onrender.com/api/v1/user/signup",{
                         firstName: firstName,
                         lastName: lastName,
                         email: email,
