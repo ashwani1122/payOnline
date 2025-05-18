@@ -34,6 +34,8 @@ transferMoney.post("/transferMoney", userMiddleware, async (req: Request, res: R
         await Account.updateOne({userId: to},{$inc: {balance: amount}}).session(session)
         
         await session.commitTransaction();
+
+        
         res.status(200).json({
             success: true,
             message: "Transfer successful"
