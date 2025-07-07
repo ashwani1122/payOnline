@@ -4,14 +4,23 @@ import Balance from "../components/Balance";
 import Input from "../components/input";
 import UserList from "../components/UserList";
 import axios from "axios";
-
 export default function Dashboard(){
+    type User = {
+        _id: string;
+        firstName: string;
+        lastName: string;
+        email: string;
+    }
+    type UserResponse = {
+        users: User[];
+        success: boolean;
+    }
     const token = localStorage.getItem('token');
-    const [ filter, setFilter] = useState("");
-    const [ users, setUsers] = useState([]);
+    const [ filter, setFilter] = useState<string>("");
+    const [ users, setUsers] = useState<User[]>([]);
     const [balance, setBalance ] = useState<number>(0);
     useEffect(() => {
-        axios.get("https://payonline.onrender.com/api/v1/user/balanceInquiry" ,
+        axios.get< {balance: number}>("https://payonline.onrender.com/api/v1/user/balanceInquiry" ,
             {
                 headers: {
                     Authorization: localStorage.getItem("token")
@@ -19,17 +28,21 @@ export default function Dashboard(){
             }
         )
         .then((response)=>{
-            //@ts-ignore
+           
             setBalance(response.data.balance)
         })
         .catch((error)=>{
             console.log(error)
         })
     },[token])
+   
+
+
     useEffect(() => {
-        axios.get("https://payonline.onrender.com/api/v1/user/bulk?filter="+filter)
+       
+        axios.get<UserResponse>("https://payonline.onrender.com/api/v1/user/bulk?filter="+filter)
         .then((response)=>{
-            //@ts-ignore
+           
             setUsers(response.data.users)
         })
         .catch((error)=>{
@@ -42,13 +55,14 @@ export default function Dashboard(){
                 <div className="w-full flex ">
                 <Appbar/>
                 </div>
-                <div className=" flex mt-10"> 
+                <div className=" flex mt-10">
 
-            {token ? <Balance  balance={ 
-                    //@ts-ignore
-                    balance?.balance?.toFixed(2)}/>:<></>}
+
+            {token ? <Balance  balance={
+               
+                    balance?.balance?.toFixed(2)|| null }/>:<></>}
                 </div>
-                <Input onchange={(e: any)=>{
+                <Input onchange={(e:  React.ChangeEvent<HTMLInputElement>)=>{
                     setFilter(e.target.value)
                 }}  Label="Users" placeholder="Search for users"/>
                 <span className=" flex flex-col justify-center items-center rounded-lg  ">
@@ -58,3 +72,4 @@ export default function Dashboard(){
             </div>
     )
 }
+
