@@ -12,10 +12,8 @@ export default function userMiddleware(req: Request, res: Response, next: NextFu
             }   
             else{   
             const tokenPayload = jwt.verify(token,  JWT_SECRET);
-            console.log(tokenPayload);
-                if (tokenPayload) {
-                    //@ts-ignore
-                    req.user = tokenPayload;
+                if (tokenPayload){
+                    req.user = JSON.parse(JSON.stringify(tokenPayload));
                     next();
                 } else {
                 res.status(401).json({
