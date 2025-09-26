@@ -14,7 +14,7 @@ export  default function signup(){
     const [ password, setPassword] = useState("");
     return(
         <div>
-        <div className="flex flex-col items-center justify-center h-screen mt-10 bg-white-700 text-black mt-10">
+        <div className="flex flex-col items-center justify-center h-screen mt-10 bg-white-700 text-black">
             <div className="border shadow-lg rounded-md px-2 bg-white text-black">
                 <Heading Label="Signup"/>
                 <SubHeading Label="Enter your information to create an account"/>
