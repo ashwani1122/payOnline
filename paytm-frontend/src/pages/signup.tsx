@@ -13,9 +13,9 @@ export  default function signup(){
     const [ email, setEmail] = useState("");
     const [ password, setPassword] = useState("");
     return(
-        <div style={{backgroundImage: "url('https://cdn.svgator.com/images/2022/06/use-svg-as-background-image-particle-strokes.svg')"}}>
-        <div className="flex flex-col items-center justify-center h-screen ">
-            <div className="border shadow-lg rounded-md px-2 bg-white-700">
+        <div>
+        <div className="flex flex-col items-center justify-center h-screen mt-10 bg-white-700 text-black">
+            <div className="border shadow-lg rounded-md px-2 bg-white text-black">
                 <Heading Label="Signup"/>
                 <SubHeading Label="Enter your information to create an account"/>
                 <Input onchange={(e: any)=>setFirstName(e.target.value)} Label="First Name" placeholder="Enter your first name"/>

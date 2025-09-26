@@ -11,9 +11,9 @@ export  default function Signin(){
     const [ password, setPassword] = useState("");
     const navigate = useNavigate();
     return(
-        <div   style={{backgroundImage: "url('https://cdn.svgator.com/images/2022/06/use-svg-as-background-image-particle-strokes.svg')"}}>
+        <div>
         <div className="flex flex-col items-center justify-center h-screen ">
-            <div  className="border shadow-lg  rounded-md px-2">
+            <div  className="border shadow-lg  rounded-md px-2 bg-white">
                 <Heading Label="Sign In"/>
                 <SubHeading Label="Enter your information to create an account"/>
                 <Input onchange={(e: any)=>setEmail(e.target.value)} Label="Email" placeholder="Enter your email"/>
