@@ -128,13 +128,13 @@ export default function Dashboard() {
         </div>
 
         {/* User list */}
-        <div className="w-full max-w-2xl bg-white rounded-xl shadow-lg p-6 mt-6">
+      { token && <div className="w-full max-w-2xl bg-white rounded-xl shadow-lg p-6 mt-6">
           <h2 className="text-xl font-semibold mb-4 text-gray-800">
             Available Users
           </h2>
           
           <UserList users={users} />
-        </div>
+        </div>}
        {!token&& <div className="mb-4  bg-white w-full max-w-2xl rounded-xl shadow-lg p-6 mt-6 flex justify-center items-center text-center text-black text-2xl h-96">
             Login for more features
           </div>}
