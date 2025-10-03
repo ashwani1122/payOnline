@@ -1,4 +1,4 @@
-
+//@ts-ignore
 export default function Balance({balance}:any){
     return(
         <div className="flex flex-col justify-center items-center  px-4 rounded-md">
