@@ -8,7 +8,6 @@ import Heading from "../components/Heading";
 export default function SendMoney() {
   const [searchParams] = useSearchParams();
   const [amount, setAmount] = useState();
-  const [loading , setLoading] = useState(false);
   const id = searchParams.get("id");
   const name = searchParams.get("name");
 

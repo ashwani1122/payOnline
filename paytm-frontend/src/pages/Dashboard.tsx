@@ -16,7 +16,9 @@ export default function Dashboard() {
     lastName: string;
     email: string;
   };
-
+  interface Balance{
+    balance: number;
+  }
   type UserResponse = {
     users: User[];
     success: boolean;
@@ -28,7 +30,7 @@ export default function Dashboard() {
   const token = localStorage.getItem("token");
   const [filter, setFilter] = useState<string>("");
   const [users, setUsers] = useState<User[]>([]);
-  const [balance, setBalance] = useState<number>(0);
+  const [balance, setBalance] = useState<Balance>({ balance: 0 });
 
   // ----------------------------
   // Effects
@@ -37,7 +39,7 @@ export default function Dashboard() {
   // Fetch balance
   useEffect(() => {
     axios
-      .get<{ balance: number }>(
+      .get<{ balance: Balance }>(
         "https://payonline.onrender.com/api/v1/user/balanceInquiry",
         {
           headers: {
