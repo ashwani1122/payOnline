@@ -111,7 +111,7 @@ export default function Dashboard() {
       <Appbar />
 
       {/* Main Content */}
-      <div className="flex flex-col items-center justify-start flex-1 pt-20 pb-12 px-4 sm:px-6 lg:px-8 gap-8">
+      <div className="flex flex-col items-center justify-start flex-1 pt-20 pb-12 px-4 sm:px-6 lg:px-8 gap-8 mt-10">
         {/* Loading State */}
         {loading && (
           <div className="w-full max-w-md text-center">
