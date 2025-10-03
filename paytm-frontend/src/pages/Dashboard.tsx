@@ -82,6 +82,7 @@ export default function Dashboard() {
         {/* Balance card */}
         {token && (
         <div className="w-full max-w-md  rounded-xl shadow-lg mt-20 p-6 bg-white">
+          //@ts-ignore
                 <Balance balance={balance.balance} />
             
         </div>
