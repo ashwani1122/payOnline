@@ -7,58 +7,99 @@ import Heading from "../components/Heading";
 
 export default function SendMoney() {
   const [searchParams] = useSearchParams();
-  const [amount, setAmount] = useState();
+  const [amount, setAmount] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+  const [token] = useState<string | null>(localStorage.getItem("token"));
   const id = searchParams.get("id");
   const name = searchParams.get("name");
 
-  return (
-    <div className="flex flex-col h-screen justify-center items-center px-4 py-4 bg-white">
-      <div
-        key={id}
-        className="flex flex-col justify-center px-5 items-center gap-5 shadow-lg rounded-md border-2 border-gray-300 bg-white-700"
-      >
-        <Heading Label="Send Money" />
+  const handleSendMoney = async () => {
+    if (!amount || amount <= 0) {
+      setError("Please enter a valid amount");
+      return;
+    }
 
-        {/* User avatar + name */}
-        <div className="flex justify-center items-center pr-10 gap-1">
-          <span className="rounded-full h-12 w-12 bg-green-700 flex justify-center items-center text-xl text-black">
+    setLoading(true);
+    setError(null);
+    setSuccess(null);
+
+    try {
+      await axios.post(
+        "https://payonline.onrender.com/api/v1/user/transferMoney",
+        {
+          amount,
+          to: id,
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      setSuccess(`Rs ${amount.toFixed(2)} sent to ${name}`);
+    } catch (error) {
+      console.error("Failed to send money:", error);
+      setError("Failed to send money. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 flex flex-col justify-center items-center px-4 py-12 sm:px-6 lg:px-8 font-sans">
+      <div className="w-full max-w-md bg-white/90 backdrop-blur-md rounded-xl shadow-lg p-6 transform transition-all duration-300 hover:shadow-xl animate-fade-in">
+        {/* Heading */}
+        <Heading
+          Label="Send Money"
+        />
+
+        {/* Error Message */}
+        {error && (
+          <div className="w-full bg-red-50 text-red-700 p-3 rounded-lg shadow-sm mb-4 text-center animate-fade-in">
+            {error}
+          </div>
+        )}
+
+        {/* Success Message */}
+        {success && (
+          <div className="w-full bg-green-50 text-green-700 p-3 rounded-lg shadow-sm mb-4 text-center animate-fade-in">
+            {success}
+          </div>
+        )}
+
+        {/* User Avatar + Name */}
+        <div className="flex items-center gap-3 mb-6">
+          <span className="rounded-full h-12 w-12 bg-blue-100 text-blue-600 flex justify-center items-center text-xl font-semibold">
             {name?.charAt(0).toUpperCase()}
           </span>
-          <span className="flex justify-center items-center text-black text-xl">
+          <span className="text-lg sm:text-xl font-medium text-gray-800">
             {name?.toUpperCase()}
           </span>
         </div>
 
-        {/* Amount input */}
-        <div className="w-full">
+        {/* Amount Input */}
+        <div className="w-full mb-6">
           <input
-            className="border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 text-sm px-4 py-2 w-full text-black font-bold"
-            placeholder="Enter Amount"
-            onChange={(e: any) => setAmount(e.target.value)}
+            type="number"
+            value={amount || ""}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setAmount(Number(e.target.value))
+            }
+            placeholder="Enter Amount (Rs)"
+            className="w-full p-3 border border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 bg-white text-gray-800 font-medium placeholder-gray-400"
+            disabled={loading}
           />
         </div>
 
-        {/* Send Money button */}
+        {/* Send Money Button */}
         <Button
-          onClick={async () => {
-            await axios.post(
-              "https://payonline.onrender.com/api/v1/user/transferMoney",
-              {
-                amount,
-                to: id,
-              },
-              {
-                headers: {
-                  Authorization: localStorage.getItem("token"),
-                },
-              }
-            );
-
-            alert(`${amount} Rs sent to ${name}`);
-          } 
-        
-        }
-          label="Send Money"
+          onClick={handleSendMoney}
+          label={loading ? "Sending..." : "Send Money"}
+          className={`w-full bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition-all duration-300 font-semibold shadow-md hover:shadow-lg ${
+            loading ? "opacity-50 cursor-not-allowed" : ""
+          }`}
         />
       </div>
     </div>

@@ -1,36 +1,59 @@
-import Button from "./Button";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-export default function UserList({users}: {users: any[]}) { 
-    const navigate = useNavigate();
-    const token = localStorage.getItem('token');
-    return(
-        <>
-            <div className=" w-full text-center flex justify-center items-center ">
+import Button from "./Button";
+
+interface User {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+}
+
+interface UserListProps {
+  users: User[];
+}
+
+export default function UserList({ users }: UserListProps) {
+  const navigate = useNavigate();
+  const [token] = useState<string | null>(localStorage.getItem("token"));
+
+  return (
+    <div className="w-full space-y-4">
+      {users.length === 0 ? (
+        <p className="text-center text-gray-500 text-lg">No users found</p>
+      ) : (
+        users.map((user, index) => (
+          <div
+            key={user._id}
+            className="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 animate-fade-in"
+            style={{ animationDelay: `${index * 100}ms` }}
+          >
+            {/* User Info */}
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 text-blue-600 text-xl font-semibold">
+                {user.firstName[0].toUpperCase()}
+              </div>
+              <div className="flex flex-col">
+                <p className="text-lg font-medium text-gray-800">
+                  {user.firstName} {user.lastName}
+                </p>
+                <p className="text-sm text-gray-500">{user.email}</p>
+              </div>
             </div>
-            <div className="flex flex-col  w-full justify-center items-center ">
-                {users.map((user: any) => (
-                    <div key={user._id} className=" text-center flex  justify-between items-center  w-full  ">
-                        <div className=" flex justify-center items-center gap-1  px-2 py-1 rounded-md text-white">
-                            <div className="flex text-black  text-2xl justify-center 
-                            font-light  items-center  rounded-full h-10 w-10 bg-green-400 cursor-pointer">
-                                {user.firstName[0].toUpperCase()}
-                                
-                            </div>
-                            <div className="text-black text-xl font-light">
-                            {user.firstName.toUpperCase()}
-                            </div>
-                            <div className="text-black text-xl font-light">
-                            <hr /> {user.lastName.toUpperCase()}
-                            </div>
-                    </div>
-                    
-                    {token ?<Button label="Send Money" onClick={()=>{
-                        navigate("/send?id="+user._id+"&name="+user.firstName)
-                    }} />:<></>}
-                    </div>
-                ))}
-            </div>
-            </>
-        
-    )
+
+            {/* Send Money Button */}
+            {token && (
+              <Button
+                label="Send Money"
+                onClick={() => {
+                  navigate(`/send?id=${user._id}&name=${user.firstName}`);
+                }}
+                className="bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700 transition-all duration-200 font-semibold shadow-sm hover:shadow-md"
+              />
+            )}
+          </div>
+        ))
+      )}
+    </div>
+  );
 }
