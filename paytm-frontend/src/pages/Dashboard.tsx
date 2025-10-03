@@ -37,7 +37,7 @@ export default function Dashboard() {
   // Fetch balance
   useEffect(() => {
     axios
-      .get<{ balance: number }>(
+      .get<{ balance: any}>(
         "https://payonline.onrender.com/api/v1/user/balanceInquiry",
         {
           headers: {
