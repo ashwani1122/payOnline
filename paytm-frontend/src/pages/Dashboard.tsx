@@ -7,9 +7,7 @@ import Input from "../components/input";
 import UserList from "../components/UserList";
 
 export default function Dashboard() {
-  // ----------------------------
-  // Types
-  // ----------------------------
+
   type User = {
     _id: string;
     firstName: string;
@@ -23,23 +21,14 @@ export default function Dashboard() {
     users: User[];
     success: boolean;
   };
-
-  // ----------------------------
-  // State
-  // ----------------------------
   const token = localStorage.getItem("token");
   const [filter, setFilter] = useState<string>("");
   const [users, setUsers] = useState<User[]>([]);
   const [balance, setBalance] = useState<Balance>({ balance: 0 });
 
-  // ----------------------------
-  // Effects
-  // ----------------------------
-
-  // Fetch balance
   useEffect(() => {
     axios
-      .get<{ balance: Balance }>(
+      .get<{ balance: Balance}>(
         "https://payonline.onrender.com/api/v1/user/balanceInquiry",
         {
           headers: {
@@ -69,9 +58,7 @@ export default function Dashboard() {
       });
   }, [filter, token]);
 
-  // ----------------------------
-  // Render
-  // ----------------------------
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-500 to-green-500 flex flex-col">
       {/* Top Navbar */}
